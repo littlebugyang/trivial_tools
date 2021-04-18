@@ -3,7 +3,7 @@
  * @LastEditors: lby
  */
 const { promisify } = require('util')
-const { resolve, parse, relative } = require('path')
+const { resolve, parse, relative, dirname } = require('path')
 const fs = require('fs')
 const readdir = promisify(fs.readdir)
 const stat = promisify(fs.stat)
@@ -31,6 +31,7 @@ function addFrontMatter(paths) {
       const article = fs.readFileSync(paths[i], { encoding: 'utf8' })
       const targetPath = resolve(targetDir, subtractBase)
       console.log(targetPath)
+      fs.mkdirSync(dirname(targetPath), { recursive: true })
       fs.writeFileSync(
         targetPath,
         `---\ntitle: ${parsedPath.name}\ncategories:\n---\n${article}`
