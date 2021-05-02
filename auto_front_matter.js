@@ -7,9 +7,10 @@ const { resolve, parse, relative, dirname } = require('path')
 const fs = require('fs')
 const readdir = promisify(fs.readdir)
 const stat = promisify(fs.stat)
+const moment = require('moment')
 
-const baseDir = ''
-const targetDir = ''
+const sourceDir = './source'
+const targetDir = './target'
 
 async function getFiles(dir) {
   const subdirs = await readdir(dir)
@@ -24,23 +25,30 @@ async function getFiles(dir) {
 
 function addFrontMatter(paths) {
   for (let i = 0; i < paths.length; ++i) {
-    const subtractBase = relative(baseDir, paths[i])
+    const subtractBase = relative(sourceDir, paths[i])
     const parsedPath = parse(paths[i])
+
 
     if (parsedPath.ext === '.md') {
       const article = fs.readFileSync(paths[i], { encoding: 'utf8' })
       const targetPath = resolve(targetDir, subtractBase)
-      console.log(targetPath)
+      const stat = fs.statSync(paths[i])
       fs.mkdirSync(dirname(targetPath), { recursive: true })
       fs.writeFileSync(
         targetPath,
-        `---\ntitle: ${parsedPath.name}\ncategories:\n---\n${article}`
+        `---
+        title: ${parsedPath.name}
+        date: ${moment(stat.mtime).format('YYYY/MM/DD HH:mm:ss')}
+        updated: ${moment(stat.mtime).format('YYYY/MM/DD HH:mm:ss')}
+        categories:
+        ---
+        `.replace(/^(\s)+/gm, '') + article
       )
     }
   }
+  console.log('Done. ')
 }
 
-getFiles(baseDir)
+getFiles(sourceDir)
   .then(addFrontMatter)
   .catch((e) => console.error(e))
-console.log('Done. ')

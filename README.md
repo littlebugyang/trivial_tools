@@ -1,6 +1,12 @@
 # trivial_tools
 Just trivial tools. 
 
+# Auto Front Matter
+## Install
+```
+npm install moment --save
+```
+
 # Todo
 ## Auto Front Matter
 - [x] Perform mkdir when necessary. 
@@ -9,4 +15,4 @@ Just trivial tools.
 - [ ] Detect existing front matter.
 - [ ] Add force mode.
 - [ ] Copy other files except .md.
-- [ ] Modify date. 
+- [x] Modify date. 
