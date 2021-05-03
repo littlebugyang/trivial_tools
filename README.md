@@ -12,7 +12,7 @@ npm install moment --save
 - [x] Perform mkdir when necessary. 
 - [ ] Make destination directory optional.
 - [ ] Add delete mode.
-- [ ] Detect existing front matter.
+- [x] Detect existing front matter.
 - [ ] Add force mode.
-- [ ] Copy other files except .md.
+- [ ] ~~Copy other files except .md.~~
 - [x] Modify date. 
